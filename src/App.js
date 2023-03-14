@@ -10,7 +10,8 @@ import BoxMod from "./store/navigation/box-mod";
 import ReplacementPods from "./store/navigation/replacement-pods";
 import ReplacementCoils from "./store/navigation/replacement-coils";
 import MyCart from "./store/cart/cart";
-import ItemPage from "./store/item-page";
+import AegisBonusKit from "./store/item-page/AegisBonusKit";
+import AegisMax from "./store/item-page/AegisMax";
 import BoxModKits from "./store/navigation/box-mod-kits";
 import PodKits from "./store/navigation/pod-kits";
 import Profile from "./Profile";
@@ -28,7 +29,8 @@ const App = (props) => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Store />}>
-          <Route path="/item-page/:itemId" element={<ItemPage />} />
+        <Route path="/item-page/AegisBonusKit" element={<AegisBonusKit />} />
+        <Route path="/item-page/AegisMax" element={<AegisMax />} />
           <Route path="/all-products" element={<AllProducts />} />
           <Route path="/box-mods" element={<BoxMod />} />
           <Route path="/replacement-pods" element={<ReplacementPods />} />

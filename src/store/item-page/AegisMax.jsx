@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './item-page.css'
+import './css/aegis-max.css';
+import aegisBKIcon from '../../assets/images/item-pages-details/aegis-boost-01-icon.png';
+import powerLogo from '../../assets/images/item-pages-details/power-icon.png';
 
 
-function ItemPage() {
-  const { itemId } = useParams();
+function AegisMax() {
+  const pageName = "AegisMax";
   const [item, setItem] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:3005/store/item-page/${itemId}`)
+    fetch(`http://localhost:3005/store/item-page/${pageName}`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,23 +28,23 @@ function ItemPage() {
         setItem(data);
       })
       .catch(error => console.error(error));
-  }, [itemId]);
+  }, [pageName]);
 
 
-  const [images, setImages] = useState([
-    'https://via.placeholder.com/400x400',
-    'https://via.placeholder.com/400x401',
-    'https://via.placeholder.com/400x402',
-    'https://via.placeholder.com/400x403',
-    'https://via.placeholder.com/400x404',
-    'https://via.placeholder.com/400x405',
-    'https://via.placeholder.com/400x405',
-    'https://via.placeholder.com/400x405',
-    'https://via.placeholder.com/400x404',
-    'https://via.placeholder.com/400x405',
-    'https://via.placeholder.com/400x405',
-    'https://via.placeholder.com/400x405',
-  ]);
+const [images, setImages] = useState([]);
+
+const importImages = async () => {
+  const context = require.context('../../assets/images/aegis-max', false, /\.(png|jpe?g|svg)$/);
+  const importedImages = await Promise.all(
+    context.keys().map(context)
+  );
+  setImages(importedImages);
+}
+
+useEffect(() => {
+  importImages();
+}, []);
+
   const [currentImage, setCurrentImage] = useState(0);
 
   const containerRef = useRef(null);
@@ -116,11 +118,11 @@ const handleSmallImageClick = (index) => {
           <div className="col-lg-6 order-sm-1 order-lg-2">
               <div className="row">
 
-                <div className="col-12 mb-4" style={{width:"500px"}}>
+                <div className="col-12 mb-4">
                   <img
-                    className="border rounded ratio ratio-1x1"
+                    className="border rounded ratio ratio-1x1 img-fluid"
                     alt=""
-                    src={`http://localhost:3005/${item.item_main_image}`}
+                    src={images[currentImage]}
                   />
                 </div>
               </div>
@@ -128,7 +130,7 @@ const handleSmallImageClick = (index) => {
 
             <div className="d-lg-block col-lg-1 order-sm-2 order-xs-2 order-lg-1 ">
               <div
-                className="image-vertical-scroller"
+                className="aegisMax-vertical-scroller"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
@@ -141,7 +143,7 @@ const handleSmallImageClick = (index) => {
                       <div key={index} onClick={() => handleSmallImageClick(index)}>
                         <img
                           className={"rounded mb-2 ratio " + selected}
-                          alt=""
+                          alt="Different Colors of Aegis Max"
                           src={image}
                         />
                       </div>
@@ -185,14 +187,10 @@ const handleSmallImageClick = (index) => {
           </div>
         </div>
 
-        <div className="container-fluid px-">
-          <div className="">
-            <h4 className="mb-0">Description</h4>
-            <hr />
-            <p className="lead">
-                {item.item_desc}
-            </p>
-          </div>
+        <div className="container-fluid" style={{backgroundColor:"#8bd7d2"}}>
+          <h4 className="mb-0">Overview</h4>
+          <hr />
+          
         </div>
       </>
     )}
@@ -202,4 +200,4 @@ const handleSmallImageClick = (index) => {
   );
 }
 
-export default ItemPage;
+export default AegisMax;
